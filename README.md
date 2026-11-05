@@ -21,7 +21,7 @@ Threshold picked on the validation split only. 3 random-search iterations (see `
 
 Full numbers: `reports/metrics.json`; plots: `reports/pr_curve_and_ablation.png`, `reports/shap_summary.png`.
 
-### Things to know before you put numbers on a resume
+
 1. **Fraud rate:** the real PaySim file has **8,213 / 6,362,620 = 0.129%** fraud overall (not 0.82%). The fraud rate rises over the simulation clock (~0.11% in steps 1-100 to ~0.88% after step 500), so the chronological test split is ~0.42% fraud.
 2. **Graph layer:** on real PaySim the graph features did **not** improve recall over the tabular baseline (see table). The reason is in the data: 8,169 distinct receivers across 8,213 frauds, and fraud cash-out senders never appear earlier as receivers, i.e. PaySim contains essentially no mule reuse / rings for a graph to find. Don't claim an improvement from these results; it's an honest ablation. (On the synthetic generator in `fraudpipe/synthetic.py`, which does contain rings, the graph layer lifts PR-AUC, which shows the layer works when ring structure exists.)
 3. Leakage: PaySim's `newbalanceOrig` / `newbalanceDest` are written after the transaction; `python train.py --show-leakage` scores a model with them to show the inflation.
